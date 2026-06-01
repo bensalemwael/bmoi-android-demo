@@ -63,14 +63,13 @@ les réponses des 4 APIs et est commutable de **trois façons** :
 Dans le bandeau bleu de l'écran de **Login**, un menu déroulant
 *"Démo : Tout OK (score bas)"* permet de basculer instantanément vers :
 
-| Scénario              | Effet                                                                  |
-| :-------------------- | :--------------------------------------------------------------------- |
-| `ALL_OK`              | 3 checks + autorisation ✅ + score fraude 12 % → tout passe            |
-| `FAIL_NUMBER_VERIFY`  | Vérification réseau mobile ❌ → login bloqué dès l'étape 1             |
-| `FAIL_SIM_SWAP`       | Vérification ligne mobile ❌ (changement SIM récent détecté)           |
-| `FAIL_DEVICE_SWAP`    | Vérification Smartphone ❌ (appareil inconnu)                          |
-| `FAIL_FRAUD`          | Login OK mais score fraude 87 % → virement bloqué                      |
-| `AMOUNT_BASED`        | Score fraude selon montant : ≤ 1 000 000 MGA → OK, > → bloqué (76 %)   |
+| Scénario              | Effet                                                                                   |
+| :-------------------- | :-------------------------------------------------------------------------------------- |
+| `ALL_OK` (défaut)     | Login ✅ + score fraude basé sur le montant : ≤ 1 000 000 MGA → 12 % OK, > → 76 % bloqué |
+| `FAIL_NUMBER_VERIFY`  | Vérification réseau mobile ❌ → login bloqué dès l'étape 1                              |
+| `FAIL_SIM_SWAP`       | Vérification ligne mobile ❌ (changement SIM récent détecté)                            |
+| `FAIL_DEVICE_SWAP`    | Vérification Smartphone ❌ (appareil inconnu)                                           |
+| `FAIL_FRAUD`          | Login OK mais score fraude 87 % forcé → virement toujours bloqué                        |
 
 ### 3.2 À la compilation (CI / build automatisé)
 

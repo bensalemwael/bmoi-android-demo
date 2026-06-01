@@ -79,8 +79,10 @@ class SifipMockService(initial: MockScenario = MockScenario.ALL_OK) : SifipApi {
         amountMga: Long,
     ): FraudScoreResponse {
         delay(FRAUD_SCORE_LATENCY_MS)
-        return when (_scenario.value) {
-            MockScenario.FAIL_FRAUD -> FraudScoreResponse(
+
+        // FAIL_FRAUD forces a high score regardless of amount.
+        if (_scenario.value == MockScenario.FAIL_FRAUD) {
+            return FraudScoreResponse(
                 score = 87,
                 decision = FraudDecision.REJECT,
                 reasons = listOf(
@@ -91,30 +93,24 @@ class SifipMockService(initial: MockScenario = MockScenario.ALL_OK) : SifipApi {
                     "Activité inhabituelle détectée par le modèle IA",
                 ),
             )
-            MockScenario.AMOUNT_BASED -> if (amountMga > AMOUNT_FRAUD_THRESHOLD_MGA) {
-                FraudScoreResponse(
-                    score = 76,
-                    decision = FraudDecision.REJECT,
-                    reasons = listOf(
-                        "Authentification comportementale : OK",
-                        "Vérification historique : montant inhabituel pour ce profil",
-                        "Bénéficiaire connu",
-                        "Montant > seuil critique (1 000 000 MGA)",
-                    ),
-                )
-            } else {
-                FraudScoreResponse(
-                    score = 18,
-                    decision = FraudDecision.APPROVE,
-                    reasons = listOf(
-                        "Authentification comportementale : OK",
-                        "Vérification historique : conforme",
-                        "Bénéficiaire connu",
-                        "Montant cohérent avec l'historique",
-                    ),
-                )
-            }
-            else -> FraudScoreResponse(
+        }
+
+        // For every other scenario the fraud score depends on the amount,
+        // so the bank can demo both outcomes in one go just by changing the
+        // amount entered on the form.
+        return if (amountMga > AMOUNT_FRAUD_THRESHOLD_MGA) {
+            FraudScoreResponse(
+                score = 76,
+                decision = FraudDecision.REJECT,
+                reasons = listOf(
+                    "Authentification comportementale : OK",
+                    "Vérification historique : montant inhabituel pour ce profil",
+                    "Bénéficiaire connu",
+                    "Montant > seuil critique (1 000 000 MGA)",
+                ),
+            )
+        } else {
+            FraudScoreResponse(
                 score = 12,
                 decision = FraudDecision.APPROVE,
                 reasons = listOf(

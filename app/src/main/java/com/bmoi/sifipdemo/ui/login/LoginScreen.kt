@@ -131,6 +131,7 @@ fun LoginScreen(
                 CheckStepRow(check = state.numberVerify)
                 CheckStepRow(check = state.simSwap)
                 CheckStepRow(check = state.deviceSwap)
+                CheckStepRow(check = state.authorization)
 
                 Spacer(modifier = Modifier.height(4.dp))
 

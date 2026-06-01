@@ -13,12 +13,14 @@
     <string name="login_scenario_label">Scénario démo (caché)</string>
 
     <!-- SIFIP checks -->
-    <string name="check_number_verify">Number Verify</string>
-    <string name="check_number_verify_desc">Vérification du numéro</string>
-    <string name="check_sim_swap">SIM Swap Check</string>
-    <string name="check_sim_swap_desc">Détection changement SIM récent</string>
-    <string name="check_device_swap">Device Swap</string>
-    <string name="check_device_swap_desc">Vérification appareil habituel</string>
+    <string name="check_number_verify">Vérification réseau mobile</string>
+    <string name="check_number_verify_desc">Contrôle opérateur du numéro</string>
+    <string name="check_sim_swap">Vérification ligne mobile</string>
+    <string name="check_sim_swap_desc">Détection d\'un changement SIM récent</string>
+    <string name="check_device_swap">Vérification Smartphone</string>
+    <string name="check_device_swap_desc">Reconnaissance de l\'appareil habituel</string>
+    <string name="check_authorization">Autorisation</string>
+    <string name="check_authorization_desc">Validation finale par SIFIP</string>
 
     <!-- Dashboard -->
     <string name="dashboard_hello">Bonjour, %1$s</string>

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.bmoi.sifipdemo.data.mock.MockScenario
 import com.bmoi.sifipdemo.data.mock.SifipApi
 import com.bmoi.sifipdemo.data.mock.SifipMockService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,16 +28,20 @@ data class LoginUiState(
     val phoneNumber: String = "+261 32 12 345 67",
     val phase: LoginPhase = LoginPhase.Idle,
     val numberVerify: CheckState = CheckState(
-        name = "Number Verify",
-        description = "Vérification du numéro",
+        name = "Vérification réseau mobile",
+        description = "Contrôle opérateur du numéro",
     ),
     val simSwap: CheckState = CheckState(
-        name = "SIM Swap Check",
-        description = "Détection changement SIM récent",
+        name = "Vérification ligne mobile",
+        description = "Détection d'un changement SIM récent",
     ),
     val deviceSwap: CheckState = CheckState(
-        name = "Device Swap",
-        description = "Vérification appareil habituel",
+        name = "Vérification Smartphone",
+        description = "Reconnaissance de l'appareil habituel",
+    ),
+    val authorization: CheckState = CheckState(
+        name = "Autorisation",
+        description = "Validation finale par SIFIP",
     ),
     val scenario: MockScenario = MockScenario.ALL_OK,
 )
@@ -88,6 +93,10 @@ class LoginViewModel(
                         resultMessage = null,
                     ),
                     deviceSwap = it.deviceSwap.copy(
+                        status = CheckStatus.Idle,
+                        resultMessage = null,
+                    ),
+                    authorization = it.authorization.copy(
                         status = CheckStatus.Idle,
                         resultMessage = null,
                     ),
@@ -151,7 +160,22 @@ class LoginViewModel(
                 return@launch
             }
 
-            _state.update { it.copy(phase = LoginPhase.Success) }
+            // 4) Final SIFIP authorization — granted only if the 3 prior checks pass.
+            _state.update {
+                it.copy(
+                    authorization = it.authorization.copy(status = CheckStatus.Running),
+                )
+            }
+            delay(AUTHORIZATION_LATENCY_MS)
+            _state.update {
+                it.copy(
+                    authorization = it.authorization.copy(
+                        status = CheckStatus.Ok,
+                        resultMessage = "Autorisation valide — accès sécurisé accordé",
+                    ),
+                    phase = LoginPhase.Success,
+                )
+            }
             onSuccess()
         }
     }
@@ -160,5 +184,6 @@ class LoginViewModel(
         // Stable per-install identifier would normally come from SafetyNet/Play Integrity.
         // For the demo we hard-code a fingerprint so the mock can recognise the device.
         const val DEMO_DEVICE_ID = "samsung-galaxy-s23-DEMO-A1B2C3"
+        const val AUTHORIZATION_LATENCY_MS = 350L
     }
 }

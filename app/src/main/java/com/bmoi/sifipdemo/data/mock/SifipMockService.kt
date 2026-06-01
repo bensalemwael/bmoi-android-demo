@@ -79,21 +79,47 @@ class SifipMockService(initial: MockScenario = MockScenario.ALL_OK) : SifipApi {
         amountMga: Long,
     ): FraudScoreResponse {
         delay(FRAUD_SCORE_LATENCY_MS)
-        return if (_scenario.value == MockScenario.FAIL_FRAUD) {
-            FraudScoreResponse(
+        return when (_scenario.value) {
+            MockScenario.FAIL_FRAUD -> FraudScoreResponse(
                 score = 87,
                 decision = FraudDecision.REJECT,
                 reasons = listOf(
+                    "Authentification comportementale : incohérente",
+                    "Vérification historique : opération atypique",
                     "Bénéficiaire jamais utilisé",
                     "Montant > 10× la moyenne mensuelle",
                     "Activité inhabituelle détectée par le modèle IA",
                 ),
             )
-        } else {
-            FraudScoreResponse(
+            MockScenario.AMOUNT_BASED -> if (amountMga > AMOUNT_FRAUD_THRESHOLD_MGA) {
+                FraudScoreResponse(
+                    score = 76,
+                    decision = FraudDecision.REJECT,
+                    reasons = listOf(
+                        "Authentification comportementale : OK",
+                        "Vérification historique : montant inhabituel pour ce profil",
+                        "Bénéficiaire connu",
+                        "Montant > seuil critique (1 000 000 MGA)",
+                    ),
+                )
+            } else {
+                FraudScoreResponse(
+                    score = 18,
+                    decision = FraudDecision.APPROVE,
+                    reasons = listOf(
+                        "Authentification comportementale : OK",
+                        "Vérification historique : conforme",
+                        "Bénéficiaire connu",
+                        "Montant cohérent avec l'historique",
+                    ),
+                )
+            }
+            else -> FraudScoreResponse(
                 score = 12,
                 decision = FraudDecision.APPROVE,
                 reasons = listOf(
+                    "Authentification comportementale : OK",
+                    "Vérification historique : conforme",
                     "Bénéficiaire connu",
                     "Montant cohérent avec l'historique",
                 ),
@@ -106,5 +132,8 @@ class SifipMockService(initial: MockScenario = MockScenario.ALL_OK) : SifipApi {
         const val SIM_SWAP_LATENCY_MS = 550L
         const val DEVICE_SWAP_LATENCY_MS = 450L
         const val FRAUD_SCORE_LATENCY_MS = 900L
+
+        /** Threshold for the AMOUNT_BASED scenario (transfer ≤ → OK, > → blocked). */
+        const val AMOUNT_FRAUD_THRESHOLD_MGA = 1_000_000L
     }
 }

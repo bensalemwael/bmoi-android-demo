@@ -22,4 +22,13 @@ enum class MockScenario(val label: String) {
 
     /** All checks OK but fraud score high → block transfer. */
     FAIL_FRAUD("OK + score fraude élevé (transaction bloquée)"),
+
+    /**
+     * Login checks pass. Fraud decision depends on the transfer amount:
+     *  - ≤ 1 000 000 MGA → score bas, virement autorisé
+     *  - >  1 000 000 MGA → score élevé, virement bloqué
+     *
+     * Permet de démontrer dans un seul scénario les deux issues côté banque.
+     */
+    AMOUNT_BASED("Score fraude selon le montant (seuil 1 000 000 MGA)"),
 }

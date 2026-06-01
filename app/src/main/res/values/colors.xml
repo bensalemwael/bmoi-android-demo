@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BMOI brand palette -->
+    <color name="bmoi_navy">#0A2F5C</color>
+    <color name="bmoi_navy_dark">#061F3F</color>
+    <color name="bmoi_orange">#F39200</color>
+    <color name="bmoi_gold">#D4A437</color>
+    <color name="bmoi_white">#FFFFFF</color>
+
+    <color name="status_ok">#2E7D32</color>
+    <color name="status_warn">#F39200</color>
+    <color name="status_error">#C62828</color>
+</resources>

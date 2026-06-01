@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BMOI x SIFIP</string>
+    <string name="splash_tagline">Banque numérique sécurisée</string>
+
+    <!-- Login -->
+    <string name="login_welcome">Bienvenue</string>
+    <string name="login_subtitle">Connectez-vous à votre espace BMOI</string>
+    <string name="login_phone_label">Numéro de téléphone</string>
+    <string name="login_phone_hint">+261 32 12 345 67</string>
+    <string name="login_button">Se connecter avec SIFIP</string>
+    <string name="login_retry">Réessayer</string>
+    <string name="login_scenario_label">Scénario démo (caché)</string>
+
+    <!-- SIFIP checks -->
+    <string name="check_number_verify">Number Verify</string>
+    <string name="check_number_verify_desc">Vérification du numéro</string>
+    <string name="check_sim_swap">SIM Swap Check</string>
+    <string name="check_sim_swap_desc">Détection changement SIM récent</string>
+    <string name="check_device_swap">Device Swap</string>
+    <string name="check_device_swap_desc">Vérification appareil habituel</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_hello">Bonjour, %1$s</string>
+    <string name="dashboard_balance_label">Solde disponible</string>
+    <string name="dashboard_account_label">Compte courant • %1$s</string>
+    <string name="dashboard_transfer">Effectuer un virement</string>
+    <string name="dashboard_recent">Transactions récentes</string>
+    <string name="dashboard_logout">Se déconnecter</string>
+
+    <!-- Transfer -->
+    <string name="transfer_title">Nouveau virement</string>
+    <string name="transfer_recipient">Bénéficiaire</string>
+    <string name="transfer_iban">IBAN / RIB</string>
+    <string name="transfer_amount">Montant (MGA)</string>
+    <string name="transfer_send">Valider le virement</string>
+    <string name="transfer_analyzing">Analyse anti-fraude SIFIP en cours…</string>
+    <string name="transfer_approved">Virement autorisé</string>
+    <string name="transfer_blocked">Virement bloqué</string>
+    <string name="transfer_close">Retour au tableau de bord</string>
+    <string name="transfer_fraud_score">Score de fraude IA</string>
+</resources>

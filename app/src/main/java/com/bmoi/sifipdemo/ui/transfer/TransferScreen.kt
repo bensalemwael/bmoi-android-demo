@@ -1,6 +1,7 @@
 package com.bmoi.sifipdemo.ui.transfer
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -19,35 +22,37 @@ import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bmoi.sifipdemo.R
 import com.bmoi.sifipdemo.ui.components.BmoiPrimaryButton
 import com.bmoi.sifipdemo.ui.components.BmoiSecondaryButton
 import com.bmoi.sifipdemo.ui.components.FraudGauge
 import com.bmoi.sifipdemo.ui.components.FraudReasons
 import com.bmoi.sifipdemo.ui.dashboard.formatMgaPublic
-import com.bmoi.sifipdemo.ui.theme.BmoiNavy
-import com.bmoi.sifipdemo.ui.theme.BmoiNavyDark
+import com.bmoi.sifipdemo.ui.theme.BmoiBorder
+import com.bmoi.sifipdemo.ui.theme.BmoiMuted
+import com.bmoi.sifipdemo.ui.theme.BmoiPurple
+import com.bmoi.sifipdemo.ui.theme.BmoiPurpleDeep
 import com.bmoi.sifipdemo.ui.theme.StatusError
 import com.bmoi.sifipdemo.ui.theme.StatusOk
-import androidx.compose.foundation.text.KeyboardOptions
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,14 +68,16 @@ fun TransferScreen(
             .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState()),
     ) {
-        // Header
+        // Top bar violet
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Brush.verticalGradient(listOf(BmoiNavy, BmoiNavyDark))),
+                .background(BmoiPurple),
         ) {
             Row(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 IconButton(onClick = onBack) {
@@ -81,11 +88,15 @@ fun TransferScreen(
                     )
                 }
                 Text(
-                    text = stringResource(R.string.transfer_title),
+                    text = stringResource(R.string.transfer_title).uppercase(),
                     color = Color.White,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 2.sp,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Center,
                 )
+                Spacer(modifier = Modifier.size(48.dp))
             }
         }
 
@@ -129,14 +140,23 @@ private fun TransferForm(
     onAmountChanged: (String) -> Unit,
     onSubmit: () -> Unit,
 ) {
-    Surface(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        shape = RoundedCornerShape(20.dp),
-        color = MaterialTheme.colorScheme.surface,
-        shadowElevation = 2.dp,
+            .background(Color.White),
     ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Saisissez le virement",
+            style = MaterialTheme.typography.headlineMedium,
+            color = BmoiPurpleDeep,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 12.dp),
+            textAlign = TextAlign.Center,
+        )
+
         Column(
             modifier = Modifier.padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp),
@@ -147,8 +167,8 @@ private fun TransferForm(
                 label = { Text(stringResource(R.string.transfer_recipient)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = BmoiNavy),
+                shape = RoundedCornerShape(28.dp),
+                colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = BmoiPurple),
             )
             OutlinedTextField(
                 value = state.iban,
@@ -156,8 +176,8 @@ private fun TransferForm(
                 label = { Text(stringResource(R.string.transfer_iban)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = BmoiNavy),
+                shape = RoundedCornerShape(28.dp),
+                colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = BmoiPurple),
             )
             OutlinedTextField(
                 value = state.amountText,
@@ -166,12 +186,13 @@ private fun TransferForm(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = BmoiNavy),
+                shape = RoundedCornerShape(28.dp),
+                colors = OutlinedTextFieldDefaults.colors(focusedBorderColor = BmoiPurple),
             )
-            Spacer(modifier = Modifier.height(4.dp))
+
+            Spacer(modifier = Modifier.height(8.dp))
             BmoiPrimaryButton(
-                text = stringResource(R.string.transfer_send),
+                text = "Valider",
                 onClick = onSubmit,
                 enabled = state.amountText.isNotBlank() && state.iban.isNotBlank(),
             )
@@ -181,31 +202,20 @@ private fun TransferForm(
 
 @Composable
 private fun AnalyzingState() {
-    Surface(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        shape = RoundedCornerShape(20.dp),
-        color = MaterialTheme.colorScheme.surface,
-        shadowElevation = 2.dp,
+            .background(Color.White)
+            .padding(40.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            CircularProgressIndicator(
-                color = BmoiNavy,
-                strokeWidth = 3.dp,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = stringResource(R.string.transfer_analyzing),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-        }
+        CircularProgressIndicator(color = BmoiPurple, strokeWidth = 3.dp)
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = stringResource(R.string.transfer_analyzing),
+            style = MaterialTheme.typography.titleMedium,
+            color = BmoiPurpleDeep,
+        )
     }
 }
 
@@ -219,51 +229,64 @@ private fun ResultState(
     onClose: () -> Unit,
     onRetry: () -> Unit,
 ) {
-    Surface(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        shape = RoundedCornerShape(20.dp),
-        color = MaterialTheme.colorScheme.surface,
-        shadowElevation = 2.dp,
+            .background(Color.White),
     ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    if (isSuccess) StatusOk.copy(alpha = 0.08f) else StatusError.copy(alpha = 0.08f),
+                )
+                .border(
+                    width = 1.dp,
+                    color = if (isSuccess) StatusOk.copy(alpha = 0.3f) else StatusError.copy(alpha = 0.3f),
+                )
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 imageVector = if (isSuccess) Icons.Filled.CheckCircle else Icons.Filled.Block,
                 contentDescription = null,
                 tint = if (isSuccess) StatusOk else StatusError,
-                modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .height(56.dp),
+                modifier = Modifier.size(28.dp),
             )
-            Text(
-                text = title,
-                style = MaterialTheme.typography.headlineMedium,
-                color = if (isSuccess) StatusOk else StatusError,
-                fontWeight = FontWeight.SemiBold,
-            )
-            Text(
-                text = "Montant : ${formatMgaPublic(amount)} MGA",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            FraudGauge(score = score)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Motifs analysés par l'IA SIFIP",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 6.dp),
-            )
+            Spacer(modifier = Modifier.size(14.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = title.uppercase(),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = if (isSuccess) StatusOk else StatusError,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = 1.sp,
+                )
+                Text(
+                    text = "Montant : ${formatMgaPublic(amount)} MGA",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = BmoiPurpleDeep.copy(alpha = 0.8f),
+                )
+            }
+        }
+
+        FraudGauge(score = score)
+
+        Text(
+            text = "MOTIFS ANALYSÉS PAR L'IA SIFIP",
+            color = BmoiMuted,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.SemiBold,
+            letterSpacing = 1.5.sp,
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+        )
+        HorizontalDivider(color = BmoiBorder, thickness = 1.dp)
+        Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)) {
             FraudReasons(reasons = reasons)
-            Spacer(modifier = Modifier.height(20.dp))
+        }
+        HorizontalDivider(color = BmoiBorder, thickness = 1.dp)
+
+        Column(modifier = Modifier.padding(20.dp)) {
             BmoiPrimaryButton(
                 text = stringResource(R.string.transfer_close),
                 onClick = onClose,

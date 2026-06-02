@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.bmoi.sifipdemo.navigation.BmoiNavGraph
-import com.bmoi.sifipdemo.ui.theme.BmoiSurface
+import com.bmoi.sifipdemo.ui.theme.BmoiBackground
 import com.bmoi.sifipdemo.ui.theme.BmoiTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(BmoiSurface),
+                        .background(BmoiBackground),
                 ) {
                     BmoiNavGraph()
                 }

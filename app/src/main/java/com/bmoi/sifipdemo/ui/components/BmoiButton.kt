@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -19,6 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+/**
+ * Boutons pill style BMOI Pocket : coins très arrondis (~28dp), texte en
+ * majuscules, fond violet plein pour primary / contour violet pour
+ * secondary.
+ */
 @Composable
 fun BmoiPrimaryButton(
     text: String,
@@ -32,8 +36,8 @@ fun BmoiPrimaryButton(
         enabled = enabled && !loading,
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp),
-        shape = RoundedCornerShape(14.dp),
+            .height(54.dp),
+        shape = RoundedCornerShape(28.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = Color.White,
@@ -42,16 +46,13 @@ fun BmoiPrimaryButton(
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
             if (loading) {
                 CircularProgressIndicator(
-                    modifier = Modifier
-                        .size(18.dp)
-                        .padding(end = 0.dp),
+                    modifier = Modifier.size(18.dp),
                     color = Color.White,
                     strokeWidth = 2.dp,
                 )
-            }
-            if (!loading) {
+            } else {
                 Text(
-                    text = text,
+                    text = text.uppercase(),
                     style = MaterialTheme.typography.labelLarge,
                 )
             }
@@ -71,12 +72,12 @@ fun BmoiSecondaryButton(
         enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
-            .height(52.dp),
-        shape = RoundedCornerShape(14.dp),
+            .height(50.dp),
+        shape = RoundedCornerShape(28.dp),
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = MaterialTheme.colorScheme.primary,
         ),
     ) {
-        Text(text = text, style = MaterialTheme.typography.labelLarge)
+        Text(text = text.uppercase(), style = MaterialTheme.typography.labelLarge)
     }
 }

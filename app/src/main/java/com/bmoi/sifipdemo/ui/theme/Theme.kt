@@ -7,22 +7,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val BmoiLightColorScheme = lightColorScheme(
-    primary = BmoiNavy,
+    primary = BmoiPurple,
     onPrimary = Color.White,
-    primaryContainer = BmoiNavyLight,
-    onPrimaryContainer = Color.White,
-    secondary = BmoiOrange,
+    primaryContainer = BmoiPurpleLight,
+    onPrimaryContainer = BmoiPurpleDeep,
+    secondary = BmoiCyan,
     onSecondary = Color.White,
-    secondaryContainer = BmoiSand,
-    onSecondaryContainer = BmoiNavyDark,
-    tertiary = BmoiGold,
+    secondaryContainer = BmoiPurpleTint,
+    onSecondaryContainer = BmoiPurpleDeep,
+    tertiary = BmoiCyanDark,
     onTertiary = Color.White,
-    background = BmoiSurface,
-    onBackground = BmoiNavyDark,
+    background = BmoiBackground,
+    onBackground = BmoiText,
     surface = Color.White,
-    onSurface = BmoiNavyDark,
-    surfaceVariant = BmoiSurface,
-    onSurfaceVariant = BmoiNavy,
+    onSurface = BmoiText,
+    surfaceVariant = BmoiPurpleTint,
+    onSurfaceVariant = BmoiPurpleDeep,
+    outline = BmoiBorder,
     error = StatusError,
     onError = Color.White,
 )
@@ -32,8 +33,6 @@ fun BmoiTheme(
     @Suppress("UNUSED_PARAMETER") darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    // BMOI demo: always render the light-corporate scheme so the branding
-    // stays consistent in front of the bank's stakeholders.
     MaterialTheme(
         colorScheme = BmoiLightColorScheme,
         typography = BmoiTypography,

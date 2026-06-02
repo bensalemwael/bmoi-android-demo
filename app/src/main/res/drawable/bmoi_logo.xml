@@ -1,48 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Placeholder wordmark générique sur fond violet avec accent cyan.
+    À remplacer par le logo officiel BMOI Pocket avant toute diffusion.
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="240dp"
     android:height="96dp"
     android:viewportWidth="240"
     android:viewportHeight="96">
 
-    <!-- Rounded background shield, BMOI navy -->
+    <!-- Bloc violet arrondi -->
     <path
-        android:pathData="M8,16 L232,16 A8,8 0 0 1 240,24 L240,72 A8,8 0 0 1 232,80 L8,80 A8,8 0 0 1 0,72 L0,24 A8,8 0 0 1 8,16 Z"
-        android:fillColor="#0A2F5C" />
-
-    <!-- Accent orange bar -->
-    <path
-        android:pathData="M0,76 L240,76 L240,80 A8,8 0 0 1 232,80 L8,80 A8,8 0 0 1 0,72 Z"
-        android:fillColor="#F39200" />
+        android:pathData="M8,8 L232,8 A8,8 0 0 1 240,16 L240,80 A8,8 0 0 1 232,88 L8,88 A8,8 0 0 1 0,80 L0,16 A8,8 0 0 1 8,8 Z"
+        android:fillColor="#5D2D8A" />
 
     <!-- B -->
     <path
-        android:pathData="M28,32 L28,68 L44,68 C52,68 56,64 56,58 C56,54 53,51 49,50 C52,49 54,46 54,42 C54,36 50,32 42,32 Z M36,38 L42,38 C45,38 47,40 47,43 C47,46 45,48 42,48 L36,48 Z M36,54 L44,54 C47,54 49,56 49,59 C49,62 47,64 44,64 L36,64 Z"
+        android:pathData="M28,22 L28,56 L46,56 C54,56 58,52 58,46 C58,42 55,39 51,38 C54,37 56,34 56,30 C56,25 52,22 46,22 Z M36,28 L45,28 C47,28 49,29 49,31 C49,34 47,35 45,35 L36,35 Z M36,40 L46,40 C48,40 50,42 50,45 C50,48 48,49 46,49 L36,49 Z"
         android:fillColor="#FFFFFF" />
 
     <!-- M -->
     <path
-        android:pathData="M64,32 L72,32 L82,52 L92,32 L100,32 L100,68 L93,68 L93,46 L84,64 L80,64 L71,46 L71,68 L64,68 Z"
+        android:pathData="M64,22 L72,22 L82,40 L92,22 L100,22 L100,56 L93,56 L93,34 L84,52 L80,52 L71,34 L71,56 L64,56 Z"
         android:fillColor="#FFFFFF" />
 
     <!-- O -->
     <path
-        android:pathData="M125,30 C135,30 142,38 142,50 C142,62 135,70 125,70 C115,70 108,62 108,50 C108,38 115,30 125,30 Z M125,38 C119,38 116,43 116,50 C116,57 119,62 125,62 C131,62 134,57 134,50 C134,43 131,38 125,38 Z"
+        android:pathData="M122,20 C132,20 138,28 138,38 C138,48 132,56 122,56 C112,56 106,48 106,38 C106,28 112,20 122,20 Z M122,28 C116,28 113,33 113,38 C113,43 116,48 122,48 C128,48 131,43 131,38 C131,33 128,28 122,28 Z"
         android:fillColor="#FFFFFF" />
 
     <!-- I -->
     <path
-        android:pathData="M150,32 L158,32 L158,68 L150,68 Z"
-        android:fillColor="#F39200" />
+        android:pathData="M146,22 L154,22 L154,56 L146,56 Z"
+        android:fillColor="#FFFFFF" />
 
-    <!-- Subtle dot accent -->
+    <!-- "pocket" text (cyan small) -->
     <path
-        android:pathData="M170,46 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
-        android:fillColor="#F39200" />
+        android:pathData="M48,66 L48,78 L52,78 L52,74 L55,74 C58,74 60,72 60,69 C60,67 58,66 55,66 Z M52,68 L55,68 C56,68 57,68 57,70 C57,71 56,72 55,72 L52,72 Z"
+        android:fillColor="#5BC4D0" />
     <path
-        android:pathData="M184,46 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
-        android:fillColor="#FFFFFF" />
+        android:pathData="M64,72 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0"
+        android:strokeColor="#5BC4D0"
+        android:strokeWidth="2"
+        android:fillColor="#00000000" />
     <path
-        android:pathData="M198,46 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0"
-        android:fillColor="#FFFFFF" />
+        android:pathData="M76,66 L76,78 L79,78 L79,74 L82,74 C84,74 86,73 86,70 C86,67 84,66 82,66 Z M79,68 L82,68 C83,68 84,68 84,70 C84,71 83,72 82,72 L79,72 Z"
+        android:fillColor="#5BC4D0" />
+    <path
+        android:pathData="M92,66 L92,78 L96,78 L96,73 L100,78 L104,78 L99,72 L104,66 L100,66 L96,71 L96,66 Z"
+        android:fillColor="#5BC4D0" />
+    <path
+        android:pathData="M108,66 L108,78 L116,78 L116,76 L111,76 L111,73 L115,73 L115,71 L111,71 L111,68 L116,68 L116,66 Z"
+        android:fillColor="#5BC4D0" />
+    <path
+        android:pathData="M120,66 L120,68 L123,68 L123,78 L126,78 L126,68 L129,68 L129,66 Z"
+        android:fillColor="#5BC4D0" />
 </vector>

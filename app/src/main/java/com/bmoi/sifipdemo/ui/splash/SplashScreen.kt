@@ -21,12 +21,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bmoi.sifipdemo.ui.components.BmoiLogo
-import com.bmoi.sifipdemo.ui.theme.BmoiNavy
-import com.bmoi.sifipdemo.ui.theme.BmoiNavyDark
+import com.bmoi.sifipdemo.ui.theme.BmoiPurple
 import kotlinx.coroutines.delay
 
 @Composable
@@ -41,38 +41,37 @@ fun SplashScreen(onTimeout: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    listOf(BmoiNavy, BmoiNavyDark),
-                ),
-            ),
-        contentAlignment = Alignment.Center,
+            .background(BmoiPurple),
     ) {
         Column(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
             BmoiLogo(
                 modifier = Modifier.alpha(logoAlpha.value),
-                width = 220.dp,
-                height = 88.dp,
+                width = 240.dp,
+                height = 96.dp,
             )
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = "Banque numérique sécurisée",
-                color = Color.White.copy(alpha = 0.85f),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-            CircularProgressIndicator(
-                modifier = Modifier.size(28.dp),
+                text = "MADAGASCAR",
                 color = Color.White,
-                strokeWidth = 2.5.dp,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = 3.sp,
+            )
+            Spacer(modifier = Modifier.height(48.dp))
+            CircularProgressIndicator(
+                modifier = Modifier.size(26.dp),
+                color = Color.White,
+                strokeWidth = 2.dp,
             )
         }
+
         Text(
-            text = "powered by SIFIP",
-            color = Color.White.copy(alpha = 0.6f),
+            text = "Sécurisé par SIFIP",
+            color = Color.White.copy(alpha = 0.7f),
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
                 .align(Alignment.BottomCenter)

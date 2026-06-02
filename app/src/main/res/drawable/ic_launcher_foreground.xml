@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-
-    <!-- B (white) -->
-    <path
-        android:pathData="M34,30 L34,78 L58,78 C70,78 76,72 76,64 C76,58 72,53 66,52 C71,50 74,45 74,40 C74,33 68,30 58,30 Z M46,40 L57,40 C61,40 64,42 64,46 C64,50 61,52 57,52 L46,52 Z M46,60 L60,60 C64,60 67,62 67,66 C67,70 64,72 60,72 L46,72 Z"
-        android:fillColor="#FFFFFF" />
-
-    <!-- Cyan accent dot -->
-    <path
-        android:pathData="M82,38 m-6,0 a6,6 0 1,0 12,0 a6,6 0 1,0 -12,0"
-        android:fillColor="#5BC4D0" />
-</vector>
+<!--
+    Adaptive icon foreground : enveloppe le PNG officiel bmoi_logo avec
+    une marge intérieure pour respecter la safe-zone de 66 dp d'une icône
+    adaptative (108 dp viewport - 21 dp de marge de chaque côté).
+-->
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/bmoi_logo"
+    android:inset="18dp" />

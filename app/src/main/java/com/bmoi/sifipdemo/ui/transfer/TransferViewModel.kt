@@ -17,6 +17,7 @@ data class TransferUiState(
     val recipient: String = "Mialy Rakotomalala",
     val iban: String = "MG46 0000 5012 3456 7890 12",
     val amountText: String = "250000",
+    val motif: String = "Loyer juin",
     val phase: TransferPhase = TransferPhase.Form,
     val result: FraudScoreResponse? = null,
 )
@@ -35,6 +36,7 @@ class TransferViewModel(
         // Allow only digits to keep the demo bullet-proof.
         it.copy(amountText = v.filter(Char::isDigit))
     }
+    fun onMotifChanged(v: String) = _state.update { it.copy(motif = v) }
 
     fun reset() {
         _state.update { it.copy(phase = TransferPhase.Form, result = null) }

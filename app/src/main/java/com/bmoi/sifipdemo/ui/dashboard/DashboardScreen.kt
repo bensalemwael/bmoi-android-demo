@@ -1,6 +1,8 @@
 package com.bmoi.sifipdemo.ui.dashboard
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,46 +19,32 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.NorthEast
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.PersonOutline
-import androidx.compose.material.icons.filled.SouthWest
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material.icons.filled.SwapHoriz
+import androidx.compose.material.icons.filled.ViewList
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bmoi.sifipdemo.R
-import com.bmoi.sifipdemo.data.model.Transaction
-import com.bmoi.sifipdemo.ui.components.BmoiAccountCard
-import com.bmoi.sifipdemo.ui.components.BmoiAction
-import com.bmoi.sifipdemo.ui.components.BmoiBottomActionBar
-import com.bmoi.sifipdemo.ui.components.BmoiPrimaryButton
+import com.bmoi.sifipdemo.ui.components.BmoiTopBar
 import com.bmoi.sifipdemo.ui.theme.BmoiBorder
 import com.bmoi.sifipdemo.ui.theme.BmoiMuted
 import com.bmoi.sifipdemo.ui.theme.BmoiPurple
-import com.bmoi.sifipdemo.ui.theme.BmoiPurpleLight
-import com.bmoi.sifipdemo.ui.theme.BmoiPurpleTint
 import com.bmoi.sifipdemo.ui.theme.BmoiText
-import com.bmoi.sifipdemo.ui.theme.StatusError
-import com.bmoi.sifipdemo.ui.theme.StatusOk
-import androidx.compose.ui.res.stringResource
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -68,210 +56,167 @@ fun DashboardScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val account = state.account
-    var selectedAction by remember { mutableStateOf(BmoiAction.Center) }
 
-    Scaffold(
-        bottomBar = {
-            BmoiBottomActionBar(
-                selected = selectedAction,
-                onActionSelected = { action ->
-                    selectedAction = action
-                    if (action == BmoiAction.Virements) {
-                        onTransferClicked()
-                    }
-                },
-            )
-        },
-        containerColor = MaterialTheme.colorScheme.background,
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState()),
-        ) {
-            // Top bar violet
-            TopBar(holderName = account.holder, onLogout = onLogout)
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // Carte centrale BMOI
-            BmoiAccountCard(
-                accountLabel = "Compte A Vue en MGA",
-                accountId = account.accountNumberMasked.replace("•", "").trim().ifBlank { "010191" },
-                balanceMga = account.balanceMga,
-                previousDayBalanceMga = account.balanceMga - 42_300,
-                modifier = Modifier.padding(horizontal = 20.dp),
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Pagination dots
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Dot(active = false)
-                Spacer(modifier = Modifier.width(6.dp))
-                Dot(active = true)
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // CTA virement
-            Box(modifier = Modifier.padding(horizontal = 20.dp)) {
-                BmoiPrimaryButton(
-                    text = stringResource(R.string.dashboard_transfer),
-                    onClick = onTransferClicked,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Transactions
-            Text(
-                text = stringResource(R.string.dashboard_recent).uppercase(),
-                color = BmoiMuted,
-                fontSize = 11.sp,
-                fontWeight = FontWeight.SemiBold,
-                letterSpacing = 1.5.sp,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
-            )
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(12.dp),
-                color = MaterialTheme.colorScheme.surface,
-                shadowElevation = 1.dp,
-            ) {
-                Column {
-                    account.transactions.forEachIndexed { i, tx ->
-                        TransactionRow(tx)
-                        if (i < account.transactions.lastIndex) {
-                            HorizontalDivider(
-                                color = BmoiBorder,
-                                thickness = 1.dp,
-                                modifier = Modifier.padding(start = 60.dp),
-                            )
-                        }
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-        }
-    }
-}
-
-@Composable
-private fun TopBar(holderName: String, onLogout: () -> Unit) {
-    Box(
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(BmoiPurple),
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .verticalScroll(rememberScrollState()),
     ) {
+        BmoiTopBar(
+            title = "Accueil",
+            onPowerClick = onLogout,
+        )
+
+        // Bandeau "Bonjour + dernière connexion"
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 12.dp),
+                .padding(horizontal = 12.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Menu",
-                    tint = Color.White,
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .background(BmoiBorder),
+                contentAlignment = Alignment.Center,
+            ) {
+                androidx.compose.material3.Icon(
+                    imageVector = Icons.Filled.PersonOutline,
+                    contentDescription = null,
+                    tint = BmoiPurple,
+                    modifier = Modifier.size(22.dp),
                 )
             }
+            Spacer(modifier = Modifier.width(10.dp))
+            Column {
+                Text(
+                    text = "Bonjour ${account.holder}",
+                    color = BmoiText,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    text = "Dernière connexion  06/08/2025 09:37",
+                    color = BmoiMuted,
+                    fontSize = 11.sp,
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Grille 2×2 de tuiles
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Tile(
+                    icon = Icons.Filled.Folder,
+                    label = "Comptes",
+                    onClick = {},
+                    modifier = Modifier.weight(1f),
+                )
+                Tile(
+                    icon = Icons.Filled.SwapHoriz,
+                    label = "Virements",
+                    onClick = onTransferClicked,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Tile(
+                    icon = Icons.Filled.ViewList,
+                    label = "Services",
+                    onClick = {},
+                    modifier = Modifier.weight(1f),
+                )
+                Tile(
+                    icon = Icons.AutoMirrored.Filled.Chat,
+                    label = "Contact",
+                    onClick = {},
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        // Bandeau bas violet fin (signature)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(28.dp)
+                .background(BmoiPurple),
+            contentAlignment = Alignment.CenterStart,
+        ) {
             Text(
-                text = "ACCUEIL",
+                text = "  Solde disponible : ${formatMga(account.balanceMga)} MGA",
                 color = Color.White,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 2.sp,
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center,
-            )
-            ProfileIcon(onClick = onLogout)
-        }
-    }
-}
-
-@Composable
-private fun ProfileIcon(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .padding(end = 8.dp)
-            .size(40.dp)
-            .clip(CircleShape)
-            .background(Color.White),
-        contentAlignment = Alignment.Center,
-    ) {
-        IconButton(onClick = onClick) {
-            Icon(
-                imageVector = Icons.Filled.PersonOutline,
-                contentDescription = "Se déconnecter",
-                tint = BmoiPurple,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Medium,
             )
         }
     }
 }
 
 @Composable
-private fun Dot(active: Boolean) {
-    Box(
-        modifier = Modifier
-            .size(8.dp)
-            .clip(CircleShape)
-            .background(if (active) BmoiPurple else BmoiPurpleLight),
-    )
-}
-
-@Composable
-private fun TransactionRow(tx: Transaction) {
-    val credit = tx.amountMga >= 0
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+private fun Tile(
+    icon: ImageVector,
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 14.dp),
+            .height(130.dp)
+            .clip(RoundedCornerShape(6.dp))
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(6.dp),
+        color = Color.Transparent,
+        border = BorderStroke(1.dp, BmoiBorder),
     ) {
         Box(
             modifier = Modifier
-                .size(36.dp)
+                .fillMaxSize()
                 .background(
-                    if (credit) BmoiPurpleTint else StatusError.copy(alpha = 0.10f),
-                    shape = CircleShape,
+                    Brush.verticalGradient(
+                        colors = listOf(Color(0xFFFAFAFB), Color(0xFFE8E6EE)),
+                    ),
                 ),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(
-                imageVector = if (credit) Icons.Filled.SouthWest else Icons.Filled.NorthEast,
-                contentDescription = null,
-                tint = if (credit) StatusOk else StatusError,
-                modifier = Modifier.size(18.dp),
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                androidx.compose.material3.Icon(
+                    imageVector = icon,
+                    contentDescription = label,
+                    tint = BmoiPurple,
+                    modifier = Modifier.size(46.dp),
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = label,
+                    color = BmoiPurple,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
-        Spacer(modifier = Modifier.width(12.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = tx.label,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Medium,
-                color = BmoiText,
-            )
-            Text(
-                text = tx.date,
-                style = MaterialTheme.typography.bodyMedium,
-                color = BmoiMuted,
-            )
-        }
-        Text(
-            text = "${if (credit) "+" else "-"}${formatMga(kotlin.math.abs(tx.amountMga))} MGA",
-            color = if (credit) StatusOk else StatusError,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-        )
     }
 }
 
